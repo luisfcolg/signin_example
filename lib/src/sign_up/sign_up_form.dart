@@ -15,6 +15,8 @@ class SignUpForm extends StatefulWidget {
 }
 
 class _SignUpFormState extends State<SignUpForm> {
+  final _formKey = GlobalKey<FormState>();
+
   final _firstNameTextController = TextEditingController();
   final _lastNameTextController = TextEditingController();
   final _usernameTextController = TextEditingController();
@@ -29,9 +31,18 @@ class _SignUpFormState extends State<SignUpForm> {
     );
   }
 
+  String? _validateField(value) {
+    if(value == null || value.isEmpty || value.length < 5) {
+      return "Please enter more than 5 characters";
+    } else {
+      return null;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
+      key: _formKey,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -43,6 +54,7 @@ class _SignUpFormState extends State<SignUpForm> {
             child: TextFormField(
               controller: _firstNameTextController,
               decoration: _getDecoration("First name"),
+              validator: _validateField
             ),
           ),
           Padding(
@@ -50,6 +62,7 @@ class _SignUpFormState extends State<SignUpForm> {
             child: TextFormField(
               controller: _lastNameTextController,
               decoration: _getDecoration("Last name"),
+              validator: _validateField
             ),
           ),
           Padding(
@@ -57,6 +70,7 @@ class _SignUpFormState extends State<SignUpForm> {
             child: TextFormField(
               controller: _usernameTextController,
               decoration: _getDecoration("Username"),
+              validator: _validateField
             ),
           ),
           TextButton(
@@ -66,7 +80,15 @@ class _SignUpFormState extends State<SignUpForm> {
               backgroundColor: MaterialStateProperty.resolveWith((states) => states.contains(MaterialState.disabled) ? null : Theme.of(context).colorScheme.primary),
             ),
             child: const Text("Sign up"),
-            onPressed: _formProgress == 1 ? _showWelcomeView : null,
+            onPressed: () {
+              if(_formKey.currentState!.validate()) {
+                _showWelcomeView();
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text("Invalid form"))
+                );
+              }
+            }
           ),
         ],
       ),
