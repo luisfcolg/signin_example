@@ -11,12 +11,21 @@ class SignUpView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    final screenSize = MediaQuery.of(context).size;
+
+    return Scaffold(
       body: Center(
         child: SizedBox(
-          width: 400.0,
+          width: screenSize.width * 0.4,
+          height: screenSize.height * 0.4,
           child: Card(
-            child: SignUpForm(),
+            elevation: 0.0,
+            clipBehavior: Clip.antiAlias,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25.0)),
+            child: Container(
+              padding: const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0),
+              child: const SignUpForm()
+            ),
           ),
         ),
       ),

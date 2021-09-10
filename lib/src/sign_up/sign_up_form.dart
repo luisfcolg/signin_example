@@ -21,11 +21,20 @@ class _SignUpFormState extends State<SignUpForm> {
 
   double _formProgress = 0;
 
+  InputDecoration _getDecoration(String text) {
+    return InputDecoration(
+      hintText: text,
+      border: const OutlineInputBorder(),
+      filled: true,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
       child: Column(
         mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           AnimatedProgressIndicator(value: _formProgress,),
           Text("Sign up", style: Theme.of(context).textTheme.headline4,),
@@ -33,27 +42,28 @@ class _SignUpFormState extends State<SignUpForm> {
             padding: const EdgeInsets.all(8.0),
             child: TextFormField(
               controller: _firstNameTextController,
-              decoration: const InputDecoration(hintText: "First name"),
+              decoration: _getDecoration("First name"),
             ),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextFormField(
               controller: _lastNameTextController,
-              decoration: const InputDecoration(hintText: "Last name"),
+              decoration: _getDecoration("Last name"),
             ),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextFormField(
               controller: _usernameTextController,
-              decoration: const InputDecoration(hintText: "Username"),
+              decoration: _getDecoration("Username"),
             ),
           ),
           TextButton(
             style: ButtonStyle(
+              padding: MaterialStateProperty.resolveWith((states) => const EdgeInsets.symmetric(horizontal: 20.0)),
               foregroundColor: MaterialStateProperty.resolveWith((states) => states.contains(MaterialState.disabled) ? null : Colors.white),
-              backgroundColor: MaterialStateProperty.resolveWith((states) => states.contains(MaterialState.disabled) ? null : Colors.blue),
+              backgroundColor: MaterialStateProperty.resolveWith((states) => states.contains(MaterialState.disabled) ? null : Theme.of(context).colorScheme.primary),
             ),
             child: const Text("Sign up"),
             onPressed: _formProgress == 1 ? _showWelcomeView : null,

@@ -5,9 +5,14 @@ import 'package:signin_example/src/sign_up/sign_up_view.dart';
 import 'package:signin_example/src/welcome/welcome_view.dart';
 
 class SignUpApp extends StatelessWidget {
-  const SignUpApp({
+  SignUpApp({
     Key? key
   }) : super(key: key);
+
+  final ColorScheme _colorScheme = ColorScheme.fromSwatch().copyWith(
+    primary: Colors.indigo,
+    secondary: Colors.indigoAccent,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -15,8 +20,12 @@ class SignUpApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       restorationScopeId: "app",
       title: "Sign Up App",
-      theme: ThemeData(),
-      darkTheme: ThemeData.dark(),
+      theme: ThemeData().copyWith(
+        colorScheme: _colorScheme
+      ),
+      darkTheme: ThemeData.dark().copyWith(
+          colorScheme: _colorScheme
+      ),
       themeMode: ThemeMode.system,
       onGenerateRoute: (RouteSettings routeSettings) {
         return MaterialPageRoute(
